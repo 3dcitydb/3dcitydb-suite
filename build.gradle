@@ -1,0 +1,130 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'application'
+    id 'distribution'
+}
+
+configurations {
+    izpack
+}
+
+dependencies {
+    izpack fileTree(dir: 'resources/izpack/lib', include: '*.jar')
+}
+
+apply from: 'properties.gradle'
+
+version '4.3.0'
+
+task build3DCityDB(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/3dcitydb/build.gradle"
+    tasks = ['installDist']
+    outputs.dir "$rootDir/3dcitydb/build/install/3dcitydb"
+}
+
+task buildImporterExporter(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/importer-exporter/impexp-client/build.gradle"
+    tasks = ['installDist']
+    outputs.dir "$rootDir/importer-exporter/impexp-client/build/install/3DCityDB-Importer-Exporter"
+}
+
+task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build.gradle"
+    tasks = ['installDist']
+    outputs.dir "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build/install"
+}
+
+task buildADEManagerPlugin(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/importer-exporter-plugins/plugin-ade-manager/build.gradle"
+    tasks = ['installDist']
+    outputs.dir "$rootDir/importer-exporter-plugins/plugin-ade-manager/build/install"
+}
+
+task build3DCityDBDocs(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/3dcitydb-docs/build.gradle"
+    tasks = ['build']
+    outputs.dir "$rootDir/3dcitydb-docs/build"
+}
+
+task buildWebFeatureService(type: GradleBuild, group: build) {
+    buildFile = "$rootDir/web-feature-service/build.gradle"
+    tasks = ['installDist']
+    outputs.dir "$rootDir/web-feature-service/build/install/3DCityDB-Web-Feature-Service"
+}
+
+distributions.main.contents {
+    from tasks.getByPath('buildImporterExporter').outputs
+    into('3dcitydb') {
+        from tasks.getByPath('build3DCityDB').outputs
+    }
+    into('manual') {
+        from tasks.getByPath('build3DCityDBDocs').outputs
+    }
+    into('3d-web-map-client') {
+        from "$rootDir/3dcitydb-web-map"
+    }
+    into('plugins') {
+        from tasks.getByPath('buildADEManagerPlugin').outputs
+        from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
+    }
+    into('web-feature-service') {
+        from tasks.getByPath('buildWebFeatureService').outputs
+    }
+}
+
+task buildInstaller(dependsOn: installDist, group: 'distribution') {
+    def installDir = installDist.destinationDir.toString()
+    def distDir = distZip.destinationDirectory.get()
+    def izpackDir = "$buildDir/tmp/izpack".toString()
+    def installer = "$distDir/$project.appName-" + project.version + '-Setup.jar'
+
+    doLast {
+        mkdir distDir
+
+        copy {
+            from 'resources/izpack'
+            into izpackDir
+            filesMatching('**/*.xml') {
+                filteringCharset = 'UTF-8'
+                filter(ReplaceTokens, tokens: [
+                        appName: project.impexpName,
+                        appVersion: project.version,
+                        appSubPath: '3DCityDB-Importer-Exporter',
+                        appShortcut: project.appShortcutName,
+                        startScriptName: project.appName,
+                        cliName: project.appCliName,
+                        url: project.citydbWebsiteUrl,
+                        citydbName: project.citydbName,
+                        citydbVersion: project.citydbVersion,
+                        installDir: installDir,
+                        cliDir: application.executableDir,
+                        pluginsDir: 'plugins',
+                        contribsDir: 'contribs',
+                        citydbDir: '3dcitydb',
+                        adeExtensionsDir: 'ade-extensions',
+                        templatesDir: 'templates',
+                        manualDir: 'manual',
+                        webMapClientDir: '3d-web-map-client',
+                        samplesDir: 'samples',
+                        spreadSheetPluginDir: 'plugin-spreadsheet-generator',
+                        adeManagerPluginDir: 'plugin-ade-manager',
+                        webFeatureServiceDir: 'web-feature-service'
+                ])
+            }
+            filesMatching('**/license.txt') {
+                filteringCharset = 'UTF-8'
+                filter(ReplaceTokens, tokens: [
+                        license: file("$installDir/license/LICENSE.txt").text,
+                        apache: file("$rootDir/resources/license/APACHE-2.0.txt").text
+                ])
+            }
+        }
+
+        ant.taskdef(name: 'izpack', classname: 'com.izforge.izpack.ant.IzPackTask', classpath: configurations.izpack.asPath)
+        ant.izpack(input: "$izpackDir/install.xml",
+                output: installer,
+                basedir: izpackDir
+        )
+    }
+}
