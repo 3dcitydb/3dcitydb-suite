@@ -19,65 +19,98 @@ version '4.3.0'
 
 task build3DCityDB(type: GradleBuild, group: build) {
     buildFile = "$rootDir/3dcitydb/build.gradle"
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     outputs.dir "$rootDir/3dcitydb/build/install/3dcitydb"
 }
 
 task buildImporterExporter(type: GradleBuild, group: build) {
     buildFile = "$rootDir/importer-exporter/impexp-client/build.gradle"
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     outputs.dir "$rootDir/importer-exporter/impexp-client/build/install/3DCityDB-Importer-Exporter"
 }
 
 task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
     buildFile = "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build.gradle"
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     outputs.dir "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build/install"
 }
 
 task buildADEManagerPlugin(type: GradleBuild, group: build) {
     buildFile = "$rootDir/importer-exporter-plugins/plugin-ade-manager/build.gradle"
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     outputs.dir "$rootDir/importer-exporter-plugins/plugin-ade-manager/build/install"
 }
 
 task build3DCityDBDocs(type: GradleBuild, group: build) {
     buildFile = "$rootDir/3dcitydb-docs/build.gradle"
-    tasks = ['build']
+    tasks = ['clean', 'build']
     outputs.dir "$rootDir/3dcitydb-docs/build"
 }
 
 task buildWebFeatureService(type: GradleBuild, group: build) {
     buildFile = "$rootDir/web-feature-service/build.gradle"
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     outputs.dir "$rootDir/web-feature-service/build/install/3DCityDB-Web-Feature-Service"
 }
 
-distributions.main.contents {
-    from tasks.getByPath('buildImporterExporter').outputs
-    into('3dcitydb') {
-        from tasks.getByPath('build3DCityDB').outputs
-    }
-    into('manual') {
-        from tasks.getByPath('build3DCityDBDocs').outputs
-    }
-    into('3d-web-map-client') {
-        from "$rootDir/3dcitydb-web-map"
-    }
-    into('plugins') {
-        from tasks.getByPath('buildADEManagerPlugin').outputs
-        from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
-    }
-    into('web-feature-service') {
-        from tasks.getByPath('buildWebFeatureService').outputs
+jar.onlyIf {false}
+startScripts.onlyIf {false}
+
+distributions.main {
+    contents {
+        into('3dcitydb') {
+            from tasks.getByPath('build3DCityDB').outputs
+        }
+        into('3dcitydb-docs') {
+            from tasks.getByPath('build3DCityDBDocs').outputs
+        }
+        into('3dcitydb-web-map') {
+            from "$rootDir/3dcitydb-web-map"
+        }
+        into('importer-exporter') {
+            from tasks.getByPath('buildImporterExporter').outputs
+        }
+        into('importer-exporter/plugins') {
+            from tasks.getByPath('buildADEManagerPlugin').outputs
+            from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
+        }
+        into('web-feature-service') {
+            from tasks.getByPath('buildWebFeatureService').outputs
+        }
     }
 }
 
-task buildInstaller(dependsOn: installDist, group: 'distribution') {
-    def installDir = installDist.destinationDir.toString()
+task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy) {
+    into ("$buildDir/tmp/impexp")
+    from buildImporterExporter.outputs
+
+    into('3dcitydb') {
+        from build3DCityDB.outputs
+    }
+
+    into('3d-web-map-client') {
+        from "$rootDir/3dcitydb-web-map"
+    }
+
+    from(file("$buildDir/tmp/dir")) {
+        mkdir "$buildDir/tmp/dir/ade-extensions"
+    }
+
+    into ("plugins") {
+        from tasks.getByPath('buildADEManagerPlugin').outputs
+        from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
+    }
+
+    into('manual/3DCityDB_Documentation') {
+        from build3DCityDBDocs.outputs
+    }
+}
+
+task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'distribution') {
+    def installDir = "$buildDir/tmp/impexp".toString()
     def distDir = distZip.destinationDirectory.get()
     def izpackDir = "$buildDir/tmp/izpack".toString()
-    def installer = "$distDir/$project.appName-" + project.version + '-Setup.jar'
+    def installer = "$distDir/$project.impexpAppName-" + project.version + '-Setup.jar'
 
     doLast {
         mkdir distDir
@@ -91,9 +124,9 @@ task buildInstaller(dependsOn: installDist, group: 'distribution') {
                         appName: project.impexpName,
                         appVersion: project.version,
                         appSubPath: '3DCityDB-Importer-Exporter',
-                        appShortcut: project.appShortcutName,
-                        startScriptName: project.appName,
-                        cliName: project.appCliName,
+                        appShortcut: project.impexpAppShortcutName,
+                        startScriptName: project.impexpAppName,
+                        cliName: project.impexpAppCliName,
                         url: project.citydbWebsiteUrl,
                         citydbName: project.citydbName,
                         citydbVersion: project.citydbVersion,
@@ -108,8 +141,7 @@ task buildInstaller(dependsOn: installDist, group: 'distribution') {
                         webMapClientDir: '3d-web-map-client',
                         samplesDir: 'samples',
                         spreadSheetPluginDir: 'plugin-spreadsheet-generator',
-                        adeManagerPluginDir: 'plugin-ade-manager',
-                        webFeatureServiceDir: 'web-feature-service'
+                        adeManagerPluginDir: 'plugin-ade-manager'
                 ])
             }
             filesMatching('**/license.txt') {

@@ -102,7 +102,7 @@
         <pack name="core" id="core" required="yes" preselected="yes">
             <description/>
             <fileset dir="@installDir@" targetdir="$INSTALL_PATH"
-                     excludes="@cliDir@/ @pluginsDir@/ @contribsDir@/ @citydbDir@/ @manualDir@/ @samplesDir@/ @webMapClientDir@/ @webFeatureServiceDir@/ @startScriptName@*"
+                     excludes="@cliDir@/ @pluginsDir@/ @contribsDir@/ @citydbDir@/ @manualDir@/ @samplesDir@/ @webMapClientDir@/ @startScriptName@*"
                      override="true"/>
             <file src="@installDir@/@startScriptName@.bat" targetdir="$INSTALL_PATH" os="windows" override="true"/>
             <file src="@installDir@/@startScriptName@" targetdir="$INSTALL_PATH" os="unix" override="true"/>
@@ -158,10 +158,6 @@
         <pack name="plugin.ade-manager" id="plugin.ade-manager" parent="plugins" required="no" preselected="yes">
             <description/>
             <fileset dir="@installDir@/@pluginsDir@/@adeManagerPluginDir@" targetdir="$INSTALL_PATH//@pluginsDir@/@adeManagerPluginDir@" override="true"/>
-        </pack>
-        <pack name="web-feature-Service" id="web-feature-Service" required="no" preselected="yes">
-            <description/>
-            <fileset dir="@installDir@/@webFeatureServiceDir@" targetdir="$INSTALL_PATH/@webFeatureServiceDir@" override="true"/>
         </pack>
     </packs>
 

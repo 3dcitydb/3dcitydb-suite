@@ -1,0 +1,21 @@
+[submodule "3dcitydb"]
+	path = 3dcitydb
+	url = https://github.com/3dcitydb/3dcitydb
+[submodule "importer-exporter"]
+	path = importer-exporter
+	url = https://github.com/3dcitydb/importer-exporter
+[submodule "3dcitydb-docs"]
+	path = 3dcitydb-docs
+	url = https://github.com/3dcitydb/3dcitydb-docs
+[submodule "3dcitydb-web-map"]
+	path = 3dcitydb-web-map
+	url = https://github.com/3dcitydb/3dcitydb-web-map
+[submodule "importer-exporter-plugins/plugin-spreadsheet-generator"]
+	path = importer-exporter-plugins/plugin-spreadsheet-generator
+	url = https://github.com/3dcitydb/plugin-spreadsheet-generator
+[submodule "importer-exporter-plugins/plugin-ade-manager"]
+	path = importer-exporter-plugins/plugin-ade-manager
+	url = https://github.com/3dcitydb/plugin-ade-manager
+[submodule "web-feature-service"]
+	path = web-feature-service
+	url = https://github.com/3dcitydb/web-feature-service
