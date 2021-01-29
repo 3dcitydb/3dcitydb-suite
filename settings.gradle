@@ -1,7 +1,6 @@
 rootProject.name = '3dcitydb-suite'
 include '3dcitydb'
-include 'citydb-docs'
-project(':citydb-docs').projectDir = file('3dcitydb-docs')
+include '3dcitydb-docs'
 include 'importer-exporter'
 include '3dcitydb-web-map'
 include 'web-feature-service'
@@ -9,7 +8,7 @@ include 'iur-ade-citydb'
 project(':iur-ade-citydb').projectDir = file('ade-extensions/iur-ade-citydb')
 include 'energy-ade-citydb'
 project(':energy-ade-citydb').projectDir = file('ade-extensions/energy-ade-citydb')
-include 'ade-manager-plugin'
-project(':ade-manager-plugin').projectDir = file('importer-exporter-plugins/plugin-ade-manager')
-include 'spreadsheet-generator-plugin'
-project(':spreadsheet-generator-plugin').projectDir = file('importer-exporter-plugins/plugin-spreadsheet-generator')
+include 'plugin-ade-manager'
+project(':plugin-ade-manager').projectDir = file('importer-exporter-plugins/plugin-ade-manager')
+include 'plugin-spreadsheet-generator'
+project(':plugin-spreadsheet-generator').projectDir = file('importer-exporter-plugins/plugin-spreadsheet-generator')
