@@ -19,3 +19,10 @@
 [submodule "web-feature-service"]
 	path = web-feature-service
 	url = https://github.com/3dcitydb/web-feature-service
+[submodule "ade-extensions/energy-ade-citydb"]
+	path = ade-extensions/energy-ade-citydb
+	url = https://github.com/3dcitydb/energy-ade-citydb
+	branch = main
+[submodule "ade-extensions/iur-ade-citydb"]
+	path = ade-extensions/iur-ade-citydb
+	url = https://github.com/3dcitydb/iur-ade-citydb

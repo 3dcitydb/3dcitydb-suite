@@ -13,44 +13,63 @@ dependencies {
     izpack fileTree(dir: 'resources/izpack/lib', include: '*.jar')
 }
 
-apply from: 'properties.gradle'
-
 version '4.3.0'
 
+def cityDBProject = project(':3dcitydb')
+def cityDBDocsProject = project(':citydb-docs')
+def impExpProject = project(':importer-exporter')
+def wfsProject = project(':web-feature-service')
+def iURADEExtensionProject = project(':iur-ade-citydb')
+def energyADEExtensionProject = project(':energy-ade-citydb')
+def adeManagerPlugin = project(':ade-manager-plugin')
+def spreadsheetGeneratorPluginProject = project(':spreadsheet-generator-plugin')
+
 task build3DCityDB(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/3dcitydb/build.gradle"
     tasks = ['clean', 'installDist']
-    outputs.dir "$rootDir/3dcitydb/build/install/3dcitydb"
-}
-
-task buildImporterExporter(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/importer-exporter/impexp-client/build.gradle"
-    tasks = ['clean', 'installDist']
-    outputs.dir "$rootDir/importer-exporter/impexp-client/build/install/3DCityDB-Importer-Exporter"
-}
-
-task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build.gradle"
-    tasks = ['clean', 'installDist']
-    outputs.dir "$rootDir/importer-exporter-plugins/plugin-spreadsheet-generator/build/install"
-}
-
-task buildADEManagerPlugin(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/importer-exporter-plugins/plugin-ade-manager/build.gradle"
-    tasks = ['clean', 'installDist']
-    outputs.dir "$rootDir/importer-exporter-plugins/plugin-ade-manager/build/install"
+    buildFile = "$cityDBProject.projectDir/build.gradle"
+    outputs.dir "$cityDBProject.projectDir/build/install/3dcitydb"
 }
 
 task build3DCityDBDocs(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/3dcitydb-docs/build.gradle"
     tasks = ['clean', 'build']
-    outputs.dir "$rootDir/3dcitydb-docs/build"
+    buildFile = "$cityDBDocsProject.projectDir/build.gradle"
+    outputs.dir "$cityDBDocsProject.projectDir/build"
+}
+
+task buildImporterExporter(type: GradleBuild, group: build) {
+    tasks = ['clean', 'installDist']
+    buildFile = "$impExpProject.projectDir/impexp-client/build.gradle"
+    outputs.dir "$impExpProject.projectDir/impexp-client/build/install/3DCityDB-Importer-Exporter"
 }
 
 task buildWebFeatureService(type: GradleBuild, group: build) {
-    buildFile = "$rootDir/web-feature-service/build.gradle"
     tasks = ['clean', 'installDist']
-    outputs.dir "$rootDir/web-feature-service/build/install/3DCityDB-Web-Feature-Service"
+    buildFile = "$wfsProject.projectDir/build.gradle"
+    outputs.dir "$wfsProject.projectDir/build/install/3DCityDB-Web-Feature-Service"
+}
+
+task buildIurADEExtension(type: GradleBuild, group: build) {
+    tasks = ['clean', 'installDist']
+    buildFile = "$iURADEExtensionProject.projectDir/build.gradle"
+    outputs.dir "$iURADEExtensionProject.projectDir/build/install"
+}
+
+task buildEnergyADEExtension(type: GradleBuild, group: build) {
+    tasks = ['clean', 'installDist']
+    buildFile = "$energyADEExtensionProject.projectDir/build.gradle"
+    outputs.dir "$energyADEExtensionProject.projectDir/build/install"
+}
+
+task buildADEManagerPlugin(type: GradleBuild, group: build) {
+    tasks = ['clean', 'installDist']
+    buildFile = "$adeManagerPlugin.projectDir/build.gradle"
+    outputs.dir "$adeManagerPlugin.projectDir/build/install"
+}
+
+task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
+    tasks = ['clean', 'installDist']
+    buildFile = "$spreadsheetGeneratorPluginProject.projectDir/build.gradle"
+    outputs.dir "$spreadsheetGeneratorPluginProject.projectDir/build/install"
 }
 
 jar.onlyIf {false}
@@ -59,23 +78,27 @@ startScripts.onlyIf {false}
 distributions.main {
     contents {
         into('3dcitydb') {
-            from tasks.getByPath('build3DCityDB').outputs
+            from build3DCityDB.outputs
         }
         into('3dcitydb-docs') {
-            from tasks.getByPath('build3DCityDBDocs').outputs
+            from build3DCityDBDocs.outputs
         }
         into('3dcitydb-web-map') {
             from "$rootDir/3dcitydb-web-map"
         }
         into('importer-exporter') {
-            from tasks.getByPath('buildImporterExporter').outputs
+            from buildImporterExporter.outputs
         }
-        into('importer-exporter/plugins') {
-            from tasks.getByPath('buildADEManagerPlugin').outputs
-            from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
+        into('importer-exporter-plugins') {
+            from buildADEManagerPlugin.outputs
+            from buildSpreadsheetGeneratorPlugin.outputs
+        }
+        into('ade-extensions') {
+            from buildIurADEExtension.outputs
+            from buildEnergyADEExtension.outputs
         }
         into('web-feature-service') {
-            from tasks.getByPath('buildWebFeatureService').outputs
+            from buildWebFeatureService.outputs
         }
     }
 }
@@ -107,10 +130,11 @@ task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy)
 }
 
 task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'distribution') {
+    impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
     def installDir = "$buildDir/tmp/impexp".toString()
     def distDir = distZip.destinationDirectory.get()
     def izpackDir = "$buildDir/tmp/izpack".toString()
-    def installer = "$distDir/$project.impexpAppName-" + project.version + '-Setup.jar'
+    def installer = "$distDir/$impExpProject.appName-" + impExpProject.version + '-Setup.jar'
 
     doLast {
         mkdir distDir
@@ -121,15 +145,15 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
             filesMatching('**/*.xml') {
                 filteringCharset = 'UTF-8'
                 filter(ReplaceTokens, tokens: [
-                        appName: project.impexpName,
-                        appVersion: project.version,
+                        appName: impExpProject.impexpName,
+                        appVersion: impExpProject.version,
                         appSubPath: '3DCityDB-Importer-Exporter',
-                        appShortcut: project.impexpAppShortcutName,
-                        startScriptName: project.impexpAppName,
-                        cliName: project.impexpAppCliName,
-                        url: project.citydbWebsiteUrl,
-                        citydbName: project.citydbName,
-                        citydbVersion: project.citydbVersion,
+                        appShortcut: impExpProject.appShortcutName,
+                        startScriptName: impExpProject.appName,
+                        cliName: impExpProject.appCliName,
+                        url: impExpProject.citydbWebsiteUrl,
+                        citydbName: impExpProject.citydbName,
+                        citydbVersion: impExpProject.citydbVersion,
                         installDir: installDir,
                         cliDir: application.executableDir,
                         pluginsDir: 'plugins',
