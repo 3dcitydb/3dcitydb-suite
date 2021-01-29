@@ -1,14 +1,19 @@
 rootProject.name = '3dcitydb-suite'
-include '3dcitydb'
-include '3dcitydb-docs'
-include 'importer-exporter'
-include '3dcitydb-web-map'
-include 'web-feature-service'
-include 'iur-ade-citydb'
-project(':iur-ade-citydb').projectDir = file('ade-extensions/iur-ade-citydb')
-include 'energy-ade-citydb'
-project(':energy-ade-citydb').projectDir = file('ade-extensions/energy-ade-citydb')
-include 'plugin-ade-manager'
-project(':plugin-ade-manager').projectDir = file('importer-exporter-plugins/plugin-ade-manager')
-include 'plugin-spreadsheet-generator'
-project(':plugin-spreadsheet-generator').projectDir = file('importer-exporter-plugins/plugin-spreadsheet-generator')
+include 'citydb'
+project(':citydb').projectDir = file('3dcitydb')
+include 'docs'
+project(':docs').projectDir = file('3dcitydb-docs')
+include 'impexp'
+project(':impexp').projectDir = file('importer-exporter')
+include '3dwebmap'
+project(':3dwebmap').projectDir = file('3dcitydb-web-map')
+include 'wfs'
+project(':wfs').projectDir = file('web-feature-service')
+include 'iur-ade'
+project(':iur-ade').projectDir = file('ade-extensions/iur-ade-citydb')
+include 'energy-ade'
+project(':energy-ade').projectDir = file('ade-extensions/energy-ade-citydb')
+include 'ade-plugin'
+project(':ade-plugin').projectDir = file('importer-exporter-plugins/plugin-ade-manager')
+include 'spshg-plugin'
+project(':spshg-plugin').projectDir = file('importer-exporter-plugins/plugin-spreadsheet-generator')

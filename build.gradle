@@ -15,39 +15,60 @@ dependencies {
 
 version '4.3.0'
 
-task build3DCityDB(group: build, dependsOn: ":3dcitydb:installDist") {
-    outputs.dir file(project(':3dcitydb').getBuildDir().toString() + '/install/3dcitydb')
+task build3DCityDB(type: GradleBuild, group: build) {
+    def cityDBProject = project(':citydb')
+    tasks = ['installDist']
+    buildFile = "$cityDBProject.projectDir/build.gradle"
+    outputs.dir "$cityDBProject.projectDir/build/install/3dcitydb"
 }
 
-task build3DCityDBDocs(group: build, dependsOn: ":3dcitydb-docs:build") {
-    outputs.dir project(':3dcitydb-docs').getBuildDir()
+task build3DCityDBDocs(type: GradleBuild, group: build) {
+    def cityDBDocsProject = project(':docs')
+    tasks = ['build']
+    buildFile = "$cityDBDocsProject.projectDir/build.gradle"
+    outputs.dir "$cityDBDocsProject.projectDir/build"
 }
 
-task buildImporterExporter(group: build, type: GradleBuild) {
-    def impExpProject = project(':importer-exporter')
+task buildImporterExporter(type: GradleBuild, group: build) {
+    def impExpProject = project(':impexp')
     tasks = ['installDist']
     buildFile = "$impExpProject.projectDir/impexp-client/build.gradle"
-    outputs.dir "$impExpProject.projectDir/impexp-client/install/3DCityDB-Importer-Exporter"
+    outputs.dir "$impExpProject.projectDir/impexp-client/build/install/3DCityDB-Importer-Exporter"
 }
 
-task buildWebFeatureService(group: build, dependsOn: ":web-feature-service:installDist") {
-    outputs.dir file(project(':web-feature-service').getBuildDir().toString() + '/install/3DCityDB-Web-Feature-Service')
+task buildWebFeatureService(type: GradleBuild, group: build) {
+    def wfsProject = project(':wfs')
+    tasks = ['installDist']
+    buildFile = "$wfsProject.projectDir/build.gradle"
+    outputs.dir "$wfsProject.projectDir/build/install/3DCityDB-Web-Feature-Service"
 }
 
-task buildIurADEExtension(group: build, dependsOn: ":iur-ade-citydb:installDist") {
-    outputs.dir file(project(':iur-ade-citydb').getBuildDir().toString() + '/install')
+task buildIurADEExtension(type: GradleBuild, group: build) {
+    def iURADEProject = project(':iur-ade')
+    tasks = ['installDist']
+    buildFile = "$iURADEProject.projectDir/build.gradle"
+    outputs.dir "$iURADEProject.projectDir/build/install"
 }
 
-task buildEnergyADEExtension(group: build, dependsOn: ":energy-ade-citydb:installDist") {
-    outputs.dir file(project(':energy-ade-citydb').getBuildDir().toString() + '/install2')
+task buildEnergyADEExtension(type: GradleBuild, group: build) {
+    def energyADEProject = project(':energy-ade')
+    tasks = ['installDist']
+    buildFile = "$energyADEProject.projectDir/build.gradle"
+    outputs.dir "$energyADEProject.projectDir/build/install"
 }
 
-task buildADEManagerPlugin(group: build, dependsOn: ":plugin-ade-manager:installDist") {
-    outputs.dir file(project(':plugin-ade-manager').getBuildDir().toString() + '/install')
+task buildADEManagerPlugin(type: GradleBuild, group: build) {
+    def adePluginProject = project(':ade-plugin')
+    tasks = ['installDist']
+    buildFile = "$adePluginProject.projectDir/build.gradle"
+    outputs.dir "$adePluginProject.projectDir/build/install"
 }
 
-task buildSpreadsheetGeneratorPlugin(group: build, dependsOn: ":plugin-spreadsheet-generator:installDist") {
-    outputs.dir file(project(':plugin-spreadsheet-generator').getBuildDir().toString() + '/install')
+task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
+    def spshgPluginProject = project(':spshg-plugin')
+    tasks = ['installDist']
+    buildFile = "$spshgPluginProject.projectDir/build.gradle"
+    outputs.dir "$spshgPluginProject.projectDir/build/install"
 }
 
 jar.onlyIf {false}
@@ -108,13 +129,15 @@ task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy)
 }
 
 task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'distribution') {
-    def impExpProject = project(':importer-exporter')
+    def impExpProject = project(':impexp')
     impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
 
     def installDir = "$buildDir/tmp/impexp".toString()
     def distDir = distZip.destinationDirectory.get()
     def izpackDir = "$buildDir/tmp/izpack".toString()
-    def installer = "$distDir/$impExpProject.appName-" + impExpProject.version + '-Setup.jar'
+    def installer = "$distDir/$impExpProject.appName-" + project.version + '-Setup.jar'
+
+    println impExpProject.version
 
     doLast {
         mkdir distDir
