@@ -5,8 +5,8 @@ include 'docs'
 project(':docs').projectDir = file('3dcitydb-docs')
 include 'impexp'
 project(':impexp').projectDir = file('importer-exporter')
-include '3dwebmap'
-project(':3dwebmap').projectDir = file('3dcitydb-web-map')
+include 'webmap'
+project(':webmap').projectDir = file('3dcitydb-web-map')
 include 'wfs'
 project(':wfs').projectDir = file('web-feature-service')
 include 'iur-ade'

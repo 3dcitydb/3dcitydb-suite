@@ -1,3 +1,14 @@
 ext {
     date = new Date()
+
+    // git branch of each submodule
+    citydbBranch = 'master'
+    impexpBranch = 'master'
+    docsBranch = 'master'
+    webmapBranch = 'master'
+    wfsBranch = 'master'
+    energyADEBranch = 'main'
+    iurADEBranch = 'master'
+    adePluginBranch = 'master'
+    spshgPluginBranch = 'master'
 }

@@ -13,58 +13,132 @@ dependencies {
     izpack fileTree(dir: 'resources/izpack/lib', include: '*.jar')
 }
 
+apply from: 'properties.gradle'
+
 version '4.3.0'
 
-task build3DCityDB(type: GradleBuild, group: build) {
+// 3dcitydb project
+task set3DCityDBGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.citydbBranch, '--', '3dcitydb'
+}
+
+task update3DCityDBGitSubmodule(type: Exec, dependsOn: set3DCityDBGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', '3dcitydb'
+}
+
+task build3DCityDB(type: GradleBuild, group: build, dependsOn: update3DCityDBGitSubmodule) {
     def cityDBProject = project(':citydb')
     tasks = ['installDist']
     buildFile = "$cityDBProject.projectDir/build.gradle"
     outputs.dir "$cityDBProject.projectDir/build/install/3dcitydb"
 }
 
-task build3DCityDBDocs(type: GradleBuild, group: build) {
+// 3dcitydb-docs project
+task set3DCityDBDocsGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.docsBranch, '--', '3dcitydb-docs'
+}
+
+task update3DCityDBDocsGitSubmodule(type: Exec, dependsOn: set3DCityDBDocsGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', '3dcitydb-docs'
+}
+
+task build3DCityDBDocs(type: GradleBuild, group: build, dependsOn: update3DCityDBDocsGitSubmodule) {
     def cityDBDocsProject = project(':docs')
     tasks = ['build']
     buildFile = "$cityDBDocsProject.projectDir/build.gradle"
     outputs.dir "$cityDBDocsProject.projectDir/build"
 }
 
-task buildImporterExporter(type: GradleBuild, group: build) {
+// importer-exporter project
+task setImporterExporterGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.impexpBranch, '--', 'importer-exporter'
+}
+
+task updateImporterExporterGitSubmodule(type: Exec, dependsOn: setImporterExporterGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'importer-exporter'
+}
+
+task buildImporterExporter(type: GradleBuild, group: build, dependsOn: updateImporterExporterGitSubmodule) {
     def impExpProject = project(':impexp')
     tasks = ['installDist']
     buildFile = "$impExpProject.projectDir/impexp-client/build.gradle"
     outputs.dir "$impExpProject.projectDir/impexp-client/build/install/3DCityDB-Importer-Exporter"
 }
 
-task buildWebFeatureService(type: GradleBuild, group: build) {
+// web-feature-service project
+task setWebFeatureServiceGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.wfsBranch, '--', 'web-feature-service'
+}
+
+task updateWebFeatureServiceGitSubmodule(type: Exec, dependsOn: setWebFeatureServiceGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'web-feature-service'
+}
+
+task buildWebFeatureService(type: GradleBuild, group: build, dependsOn: updateWebFeatureServiceGitSubmodule) {
     def wfsProject = project(':wfs')
     tasks = ['installDist']
     buildFile = "$wfsProject.projectDir/build.gradle"
     outputs.dir "$wfsProject.projectDir/build/install/3DCityDB-Web-Feature-Service"
 }
 
-task buildIurADEExtension(type: GradleBuild, group: build) {
+// iur-ade-citydb project
+task setIurADEExtensionGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.iurADEBranch, '--', 'ade-extensions/iur-ade-citydb'
+}
+
+task updateIurADEExtensionGitSubmodule(type: Exec, dependsOn: setIurADEExtensionGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'ade-extensions/iur-ade-citydb'
+}
+
+task buildIurADEExtension(type: GradleBuild, group: build, dependsOn: updateIurADEExtensionGitSubmodule) {
     def iURADEProject = project(':iur-ade')
     tasks = ['installDist']
     buildFile = "$iURADEProject.projectDir/build.gradle"
     outputs.dir "$iURADEProject.projectDir/build/install"
 }
 
-task buildEnergyADEExtension(type: GradleBuild, group: build) {
+// energy-ade-citydb project
+task setEnergyADEExtensionGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.energyADEBranch, '--', 'ade-extensions/energy-ade-citydb'
+}
+
+task updateEnergyADEExtensionGitSubmodule(type: Exec, dependsOn: setEnergyADEExtensionGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'ade-extensions/energy-ade-citydb'
+}
+
+task buildEnergyADEExtension(type: GradleBuild, group: build, dependsOn: updateEnergyADEExtensionGitSubmodule) {
     def energyADEProject = project(':energy-ade')
     tasks = ['installDist']
     buildFile = "$energyADEProject.projectDir/build.gradle"
     outputs.dir "$energyADEProject.projectDir/build/install"
 }
 
-task buildADEManagerPlugin(type: GradleBuild, group: build) {
+// plugin-ade-manager project
+task setADEManagerPluginGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.adePluginBranch, '--', 'importer-exporter-plugins/plugin-ade-manager'
+}
+
+task updateADEManagerPluginGitSubmodule(type: Exec, dependsOn: setADEManagerPluginGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'importer-exporter-plugins/plugin-ade-manager'
+}
+
+task buildADEManagerPlugin(type: GradleBuild, group: build, dependsOn: updateADEManagerPluginGitSubmodule) {
     def adePluginProject = project(':ade-plugin')
     tasks = ['installDist']
     buildFile = "$adePluginProject.projectDir/build.gradle"
     outputs.dir "$adePluginProject.projectDir/build/install"
 }
 
-task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build) {
+// plugin-spreadsheet-generator project
+task setSpreadsheetGeneratorPluginGitBranch(type: Exec) {
+    commandLine 'git', 'submodule', 'set-branch', '--branch', project.spshgPluginBranch, '--', 'importer-exporter-plugins/plugin-spreadsheet-generator'
+}
+
+task updateSpreadsheetGeneratorPluginGitSubmodule(type: Exec, dependsOn: setSpreadsheetGeneratorPluginGitBranch) {
+    commandLine 'git', 'submodule', 'update', '--init', '--remote', 'importer-exporter-plugins/plugin-spreadsheet-generator'
+}
+
+task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build, dependsOn: updateSpreadsheetGeneratorPluginGitSubmodule) {
     def spshgPluginProject = project(':spshg-plugin')
     tasks = ['installDist']
     buildFile = "$spshgPluginProject.projectDir/build.gradle"
