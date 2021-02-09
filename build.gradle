@@ -202,18 +202,18 @@ task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy)
     }
 }
 
-task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'distribution') {
-    def impExpProject = project(':impexp')
-    impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
-
-    def installDir = "$buildDir/tmp/impexp".toString()
-    def distDir = distZip.destinationDirectory.get()
-    def izpackDir = "$buildDir/tmp/izpack".toString()
-    def installer = "$distDir/$impExpProject.appName-" + project.version + '-Setup.jar'
-
-    println impExpProject.version
-
+task buildImpExpInstaller(group: 'distribution') {
     doLast {
+        def impExpProject = project(':impexp')
+
+        impExpProject.apply from: "$impExpProject.projectDir/build.gradle"
+        impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
+
+        def installDir = "$buildDir/tmp/impexp".toString()
+        def distDir = distZip.destinationDirectory.get()
+        def izpackDir = "$buildDir/tmp/izpack".toString()
+        def installer = "$distDir/$impExpProject.appName-" + project.version + '-Setup.jar'
+
         mkdir distDir
 
         copy {
@@ -223,7 +223,7 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
                 filteringCharset = 'UTF-8'
                 filter(ReplaceTokens, tokens: [
                         appName: impExpProject.impexpName,
-                        appVersion: impExpProject.version,
+                        appVersion: project.version,
                         appSubPath: '3DCityDB-Importer-Exporter',
                         appShortcut: impExpProject.appShortcutName,
                         startScriptName: impExpProject.appName,
