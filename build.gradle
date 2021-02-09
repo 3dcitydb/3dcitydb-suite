@@ -202,7 +202,7 @@ task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy)
     }
 }
 
-task buildImpExpInstaller(group: 'distribution') {
+task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'distribution') {
     doLast {
         def impExpProject = project(':impexp')
 
