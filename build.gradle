@@ -28,7 +28,7 @@ task update3DCityDBGitSubmodule(type: Exec, dependsOn: set3DCityDBGitBranch) {
 
 task build3DCityDB(type: GradleBuild, group: build, dependsOn: update3DCityDBGitSubmodule) {
     def cityDBProject = project(':citydb')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$cityDBProject.projectDir/build.gradle"
     outputs.dir "$cityDBProject.projectDir/build/install/3dcitydb"
 }
@@ -44,7 +44,7 @@ task update3DCityDBDocsGitSubmodule(type: Exec, dependsOn: set3DCityDBDocsGitBra
 
 task build3DCityDBDocs(type: GradleBuild, group: build, dependsOn: update3DCityDBDocsGitSubmodule) {
     def cityDBDocsProject = project(':docs')
-    tasks = ['build']
+    tasks = ['clean', 'build']
     buildFile = "$cityDBDocsProject.projectDir/build.gradle"
     outputs.dir "$cityDBDocsProject.projectDir/build"
 }
@@ -60,7 +60,7 @@ task updateImporterExporterGitSubmodule(type: Exec, dependsOn: setImporterExport
 
 task buildImporterExporter(type: GradleBuild, group: build, dependsOn: updateImporterExporterGitSubmodule) {
     def impExpProject = project(':impexp')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$impExpProject.projectDir/impexp-client/build.gradle"
     outputs.dir "$impExpProject.projectDir/impexp-client/build/install/3DCityDB-Importer-Exporter"
 }
@@ -76,7 +76,7 @@ task updateWebFeatureServiceGitSubmodule(type: Exec, dependsOn: setWebFeatureSer
 
 task buildWebFeatureService(type: GradleBuild, group: build, dependsOn: updateWebFeatureServiceGitSubmodule) {
     def wfsProject = project(':wfs')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$wfsProject.projectDir/build.gradle"
     outputs.dir "$wfsProject.projectDir/build/install/3DCityDB-Web-Feature-Service"
 }
@@ -92,7 +92,7 @@ task updateIurADEExtensionGitSubmodule(type: Exec, dependsOn: setIurADEExtension
 
 task buildIurADEExtension(type: GradleBuild, group: build, dependsOn: updateIurADEExtensionGitSubmodule) {
     def iURADEProject = project(':iur-ade')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$iURADEProject.projectDir/build.gradle"
     outputs.dir "$iURADEProject.projectDir/build/install"
 }
@@ -108,7 +108,7 @@ task updateEnergyADEExtensionGitSubmodule(type: Exec, dependsOn: setEnergyADEExt
 
 task buildEnergyADEExtension(type: GradleBuild, group: build, dependsOn: updateEnergyADEExtensionGitSubmodule) {
     def energyADEProject = project(':energy-ade')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$energyADEProject.projectDir/build.gradle"
     outputs.dir "$energyADEProject.projectDir/build/install"
 }
@@ -124,7 +124,7 @@ task updateADEManagerPluginGitSubmodule(type: Exec, dependsOn: setADEManagerPlug
 
 task buildADEManagerPlugin(type: GradleBuild, group: build, dependsOn: updateADEManagerPluginGitSubmodule) {
     def adePluginProject = project(':ade-plugin')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$adePluginProject.projectDir/build.gradle"
     outputs.dir "$adePluginProject.projectDir/build/install"
 }
@@ -140,7 +140,7 @@ task updateSpreadsheetGeneratorPluginGitSubmodule(type: Exec, dependsOn: setSpre
 
 task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: build, dependsOn: updateSpreadsheetGeneratorPluginGitSubmodule) {
     def spshgPluginProject = project(':spshg-plugin')
-    tasks = ['installDist']
+    tasks = ['clean', 'installDist']
     buildFile = "$spshgPluginProject.projectDir/build.gradle"
     outputs.dir "$spshgPluginProject.projectDir/build/install"
 }
@@ -212,7 +212,7 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
         def installDir = "$buildDir/tmp/impexp".toString()
         def distDir = distZip.destinationDirectory.get()
         def izpackDir = "$buildDir/tmp/izpack".toString()
-        def installer = "$distDir/$impExpProject.appName-" + project.version + '-Setup.jar'
+        def installer = "$distDir/$impExpProject.appName-" + impExpProject.version + '-Setup.jar'
 
         mkdir distDir
 
@@ -223,7 +223,7 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
                 filteringCharset = 'UTF-8'
                 filter(ReplaceTokens, tokens: [
                         appName: impExpProject.impexpName,
-                        appVersion: project.version,
+                        appVersion: impExpProject.version,
                         appSubPath: '3DCityDB-Importer-Exporter',
                         appShortcut: impExpProject.appShortcutName,
                         startScriptName: impExpProject.appName,
