@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!--
   ~ 3D City Database - The Open Source CityGML Database
-  ~ http://www.3dcitydb.org/
+  ~ https://www.3dcitydb.org/
   ~
-  ~ Copyright 2013 - 2019
+  ~ Copyright 2013 - 2021
   ~ Chair of Geoinformatics
   ~ Technical University of Munich, Germany
-  ~ https://www.gis.bgu.tum.de/
+  ~ https://www.lrg.tum.de/gis/
   ~
   ~ The 3D City Database is jointly developed with the following
   ~ cooperation partners:
   ~
-  ~ virtualcitySYSTEMS GmbH, Berlin <http://www.virtualcitysystems.de/>
+  ~ Virtual City Systems, Berlin <https://vc.systems/>
   ~ M.O.S.S. Computer Grafik Systeme GmbH, Taufkirchen <http://www.moss.de/>
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@
         <authors>
             <author name="Claus Nagel" email="cnagel@vc.systems"/>
             <author name="Zhihang Yao" email="zyao@vc.systems"/>
-            <author name="György Hudra" email="ghudra@moss.de"/>
+            <author name="Luca Casagrande" email="lcasagrande@moss.de"/>
             <author name="Felix Kunde" email="felix-kunde@gmx.de"/>
             <author name="Son H. Nguyen" email="son.nguyen@tum.de"/>
             <author name="Thomas H. Kolbe" email="thomas.kolbe@tum.de"/>
@@ -65,7 +65,6 @@
         <modifier key="useHeadingPanel" value="yes"/>
         <modifier key="headingLineCount" value="3"/>
         <modifier key="headingFontSize" value="1.2"/>
-        <modifier key="headingBackgroundColor" value="0x00ffffff"/>
         <modifier key="headingPanelCounter" value="text"/>
         <modifier key="headingPanelCounterPos" value="inHeading"/>
         <modifier key="langDisplayType" value="native"/>
@@ -101,9 +100,7 @@
     <packs>
         <pack name="core" id="core" required="yes" preselected="yes">
             <description/>
-            <fileset dir="@installDir@" targetdir="$INSTALL_PATH"
-                     excludes="@cliDir@/ @pluginsDir@/ @contribsDir@/ @citydbDir@/ @manualDir@/ @samplesDir@/ @webMapClientDir@/ @startScriptName@*"
-                     override="true"/>
+            <fileset dir="@installDir@" targetdir="$INSTALL_PATH" excludes="@cliDir@/ @pluginsDir@/ @contribsDir@/ @citydbDir@/ @samplesDir@/ @webMapClientDir@/ @startScriptName@*" override="true"/>
             <file src="@installDir@/@startScriptName@.bat" targetdir="$INSTALL_PATH" os="windows" override="true"/>
             <file src="@installDir@/@startScriptName@" targetdir="$INSTALL_PATH" os="unix" override="true"/>
             <file src="images/impexp.ico" targetdir="$INSTALL_PATH" os="windows" override="true"/>
@@ -136,10 +133,6 @@
             <description/>
             <fileset dir="@installDir@/@citydbDir@" targetdir="$INSTALL_PATH/@citydbDir@" override="true"/>
         </pack>
-        <pack name="manual" id="manual" required="no" preselected="yes">
-            <description/>
-            <fileset dir="@installDir@/@manualDir@" targetdir="$INSTALL_PATH/@manualDir@" override="true"/>
-        </pack>
         <pack name="3d-web-map-client" id="3d-web-map-client" required="no" preselected="yes">
             <description/>
             <fileset dir="@installDir@/@webMapClientDir@" targetdir="$INSTALL_PATH/@webMapClientDir@" override="true"/>
@@ -158,7 +151,7 @@
         <pack name="plugin.ade-manager" id="plugin.ade-manager" parent="plugins" required="no" preselected="yes">
             <description/>
             <fileset dir="@installDir@/@pluginsDir@/@adeManagerPluginDir@" targetdir="$INSTALL_PATH//@pluginsDir@/@adeManagerPluginDir@" override="true"/>
-        </pack>
+        </pack>        
     </packs>
 
     <native type="izpack" name="ShellLink.dll"/>
