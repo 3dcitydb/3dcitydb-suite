@@ -5,7 +5,7 @@
 [submodule "importer-exporter"]
 	path = importer-exporter
 	url = https://github.com/3dcitydb/importer-exporter
-	branch = submodule-relocation
+	branch = master
 [submodule "3dcitydb-docs"]
 	path = 3dcitydb-docs
 	url = https://github.com/3dcitydb/3dcitydb-docs
