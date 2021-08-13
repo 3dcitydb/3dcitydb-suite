@@ -37,8 +37,8 @@ task updateImporterExporterGitSubmodule(type: Exec) {
 task buildImporterExporter(type: GradleBuild, group: 'build', dependsOn: updateImporterExporterGitSubmodule) {
     def impExpProject = project(':impexp')
     tasks = ['clean', 'installDist']
-    buildFile = "$impExpProject.projectDir/impexp-client/build.gradle"
-    outputs.dir "$impExpProject.projectDir/impexp-client/build/install/3DCityDB-Importer-Exporter"
+    buildFile = "$impExpProject.projectDir/build.gradle"
+    outputs.dir "$impExpProject.projectDir/impexp-client-gui/build/install/3DCityDB-Importer-Exporter"
     outputs.upToDateWhen { false }
 }
 
