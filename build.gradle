@@ -25,7 +25,7 @@ task update3DCityDBGitSubmodule(type: Exec) {
 task build3DCityDB(type: GradleBuild, group: 'build', dependsOn: update3DCityDBGitSubmodule) {
     def cityDBProject = project(':citydb')
     tasks = ['clean', 'installDist']
-    buildFile = "$cityDBProject.projectDir/build.gradle"
+    dir "$cityDBProject.projectDir"
     outputs.dir "$cityDBProject.projectDir/build/install/3dcitydb"
 }
 
@@ -37,7 +37,7 @@ task updateImporterExporterGitSubmodule(type: Exec) {
 task buildImporterExporter(type: GradleBuild, group: 'build', dependsOn: updateImporterExporterGitSubmodule) {
     def impExpProject = project(':impexp')
     tasks = ['clean', 'installDist']
-    buildFile = "$impExpProject.projectDir/build.gradle"
+    dir "$impExpProject.projectDir"
     outputs.dir "$impExpProject.projectDir/impexp-client-gui/build/install/3DCityDB-Importer-Exporter"
     outputs.upToDateWhen { false }
 }
@@ -50,7 +50,7 @@ task updateADEManagerPluginGitSubmodule(type: Exec) {
 task buildADEManagerPlugin(type: GradleBuild, group: 'build', dependsOn: updateADEManagerPluginGitSubmodule) {
     def adePluginProject = project(':ade-plugin')
     tasks = ['clean', 'installDist']
-    buildFile = "$adePluginProject.projectDir/build.gradle"
+    dir "$adePluginProject.projectDir"
     outputs.dir "$adePluginProject.projectDir/build/install"
     outputs.upToDateWhen { false }
 }
@@ -63,7 +63,7 @@ task updateSpreadsheetGeneratorPluginGitSubmodule(type: Exec) {
 task buildSpreadsheetGeneratorPlugin(type: GradleBuild, group: 'build', dependsOn: updateSpreadsheetGeneratorPluginGitSubmodule) {
     def spshgPluginProject = project(':spshg-plugin')
     tasks = ['clean', 'installDist']
-    buildFile = "$spshgPluginProject.projectDir/build.gradle"
+    dir "$spshgPluginProject.projectDir"
     outputs.dir "$spshgPluginProject.projectDir/build/install"
     outputs.upToDateWhen { false }
 }
