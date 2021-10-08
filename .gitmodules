@@ -33,4 +33,4 @@
 [submodule "ade-extensions/iur-ade-citydb"]
 	path = ade-extensions/iur-ade-citydb
 	url = https://github.com/3dcitydb/iur-ade-citydb
-	branch = master
+	branch = release-2.0
