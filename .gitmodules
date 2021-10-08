@@ -1,31 +1,31 @@
 [submodule "3dcitydb"]
 	path = 3dcitydb
 	url = https://github.com/3dcitydb/3dcitydb
-	branch = master
+	branch = release-4.2
 [submodule "importer-exporter"]
 	path = importer-exporter
 	url = https://github.com/3dcitydb/importer-exporter
-	branch = master
+	branch = release-5.0
 [submodule "3dcitydb-docs"]
 	path = 3dcitydb-docs
 	url = https://github.com/3dcitydb/3dcitydb-docs
-	branch = master
+	branch = version-2021.1
 [submodule "3dcitydb-web-map"]
 	path = 3dcitydb-web-map
 	url = https://github.com/3dcitydb/3dcitydb-web-map
-	branch = master	
+	branch = release-v1.9
 [submodule "importer-exporter-plugins/plugin-spreadsheet-generator"]
 	path = importer-exporter-plugins/plugin-spreadsheet-generator
 	url = https://github.com/3dcitydb/plugin-spreadsheet-generator
-	branch = master
+	branch = release-4.0
 [submodule "importer-exporter-plugins/plugin-ade-manager"]
 	path = importer-exporter-plugins/plugin-ade-manager
 	url = https://github.com/3dcitydb/plugin-ade-manager
-	branch = master
+	branch = release-2.0
 [submodule "web-feature-service"]
 	path = web-feature-service
 	url = https://github.com/3dcitydb/web-feature-service
-	branch = master
+	branch = release-5.0
 [submodule "ade-extensions/energy-ade-citydb"]
 	path = ade-extensions/energy-ade-citydb
 	url = https://github.com/3dcitydb/energy-ade-citydb
