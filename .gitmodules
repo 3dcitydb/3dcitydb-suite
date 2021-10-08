@@ -29,7 +29,7 @@
 [submodule "ade-extensions/energy-ade-citydb"]
 	path = ade-extensions/energy-ade-citydb
 	url = https://github.com/3dcitydb/energy-ade-citydb
-	branch = main
+	branch = release-2.0
 [submodule "ade-extensions/iur-ade-citydb"]
 	path = ade-extensions/iur-ade-citydb
 	url = https://github.com/3dcitydb/iur-ade-citydb
