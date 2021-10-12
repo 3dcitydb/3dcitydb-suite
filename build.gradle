@@ -1,7 +1,6 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id 'application'
     id 'distribution'
 }
 
@@ -79,27 +78,6 @@ task buildWebMap(type: Zip, group: 'build', dependsOn: updateWebMapGitSubmodule)
     destinationDirectory = file("$buildDir/tmp/3dcitydb-web-map")
 }
 
-jar.onlyIf {false}
-startScripts.onlyIf {false}
-
-distributions.main {
-    contents {
-        into('3dcitydb') {
-            from build3DCityDB.outputs
-        }
-        into('3dcitydb-web-map') {
-            from buildWebMap.outputs
-        }
-        into('importer-exporter') {
-            from buildImporterExporter.outputs
-        }
-        into('importer-exporter-plugins') {
-            from buildADEManagerPlugin.outputs
-            from buildSpreadsheetGeneratorPlugin.outputs
-        }
-    }
-}
-
 task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy) {
     into ("$buildDir/tmp/impexp")
     from buildImporterExporter.outputs
@@ -151,7 +129,7 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
                         citydbName: impExpProject.citydbName,
                         citydbVersion: impExpProject.citydbVersion,
                         installDir: installDir,
-                        cliDir: application.executableDir,
+                        cliDir: 'bin',
                         pluginsDir: 'plugins',
                         contribsDir: 'contribs',
                         citydbDir: '3dcitydb',
