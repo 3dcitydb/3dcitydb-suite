@@ -1,5 +1,9 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
+plugins {
+    id 'distribution'
+}
+
 configurations {
     izpack
 }
@@ -103,7 +107,7 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
         impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
 
         def installDir = "$buildDir/tmp/impexp".toString()
-        def distDir = "$buildDir/distributions".toString()
+        def distDir = distZip.destinationDirectory.get()
         def izpackDir = "$buildDir/tmp/izpack".toString()
         def installer = "$distDir/$impExpProject.appName-" + impExpProject.version + '-Setup.jar'
 
