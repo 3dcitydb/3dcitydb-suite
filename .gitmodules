@@ -1,11 +1,11 @@
 [submodule "3dcitydb"]
 	path = 3dcitydb
 	url = https://github.com/3dcitydb/3dcitydb
-	branch = release-4.2
+	branch = master
 [submodule "importer-exporter"]
 	path = importer-exporter
 	url = https://github.com/3dcitydb/importer-exporter
-	branch = release-5.0
+	branch = master
 [submodule "3dcitydb-docs"]
 	path = 3dcitydb-docs
 	url = https://github.com/3dcitydb/3dcitydb-docs
