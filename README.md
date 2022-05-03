@@ -25,8 +25,8 @@ Contributing
 If you want to file bugs, contribute code or propose a new feature for a specific software component,
 please create a GitHub issue or a pull request **in the repository of the corresponding software component**.
 
-Building an Importer/Exporter installer
----------------------------------------
+Building a 3D City Database Suite installer
+-------------------------------------------
 This repository lets you build your own installer for the Importer/Exporter including the 3D City Database scripts,
 the 3D Web Map Client, and Importer/Exporter plugins. We use [Gradle](https://gradle.org/) as build system.
 To build the installer from source, clone the repository to your local machine and run the following
