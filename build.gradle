@@ -14,7 +14,7 @@ dependencies {
 
 apply from: 'properties.gradle'
 
-version '2022.1.0'
+version '2022.1.1'
 
 // 3dcitydb project
 task update3DCityDBGitSubmodule(type: Exec) {
