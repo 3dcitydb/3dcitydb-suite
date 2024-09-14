@@ -14,7 +14,7 @@ dependencies {
 
 apply from: 'properties.gradle'
 
-version '2023.0.1'
+version '2024.0.0'
 
 // 3dcitydb project
 task update3DCityDBGitSubmodule(type: Exec) {
@@ -75,11 +75,11 @@ task updateWebMapGitSubmodule(type: Exec) {
 task buildWebMap(type: Zip, group: 'build', dependsOn: updateWebMapGitSubmodule) {
     from "$rootDir/3dcitydb-web-map"
     archiveFileName = '3dcitydb-web-map.zip'
-    destinationDirectory = file("$buildDir/tmp/3dcitydb-web-map")
+    destinationDirectory = file("$projectDir/build/tmp/3dcitydb-web-map")
 }
 
 task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy) {
-    into ("$buildDir/tmp/impexp")
+    into ("$projectDir/build/tmp/impexp")
     from buildImporterExporter.outputs
 
     into('3dcitydb') {
@@ -95,8 +95,8 @@ task createImpExpInstallerContents(dependsOn: buildImporterExporter, type: Copy)
         from tasks.getByPath('buildSpreadsheetGeneratorPlugin').outputs
     }
 
-    from(file("$buildDir/tmp/dir")) {
-        mkdir "$buildDir/tmp/dir/ade-extensions"
+    from(file("$projectDir/build/tmp/dir")) {
+        mkdir "$projectDir/build/tmp/dir/ade-extensions"
     }
 }
 
@@ -106,9 +106,9 @@ task buildImpExpInstaller(dependsOn: createImpExpInstallerContents, group: 'dist
 
         impExpProject.apply from: "$impExpProject.projectDir/properties.gradle"
 
-        def installDir = "$buildDir/tmp/impexp".toString()
+        def installDir = "$projectDir/build/tmp/impexp".toString()
         def distDir = distZip.destinationDirectory.get()
-        def izpackDir = "$buildDir/tmp/izpack".toString()
+        def izpackDir = "$projectDir/build/tmp/izpack".toString()
         def installer = "$distDir/$impExpProject.appName-" + impExpProject.version + '-Setup.jar'
 
         mkdir distDir
