@@ -1,20 +1,20 @@
 [submodule "3dcitydb"]
 	path = 3dcitydb
 	url = https://github.com/3dcitydb/3dcitydb
-	branch = master
+	branch = release-4.4
 [submodule "importer-exporter"]
 	path = importer-exporter
 	url = https://github.com/3dcitydb/importer-exporter
-	branch = master
+	branch = release-5.5
 [submodule "3dcitydb-web-map"]
 	path = 3dcitydb-web-map
 	url = https://github.com/3dcitydb/3dcitydb-web-map
-	branch = master
+	branch = release-v1.9
 [submodule "importer-exporter-plugins/plugin-spreadsheet-generator"]
 	path = importer-exporter-plugins/plugin-spreadsheet-generator
 	url = https://github.com/3dcitydb/plugin-spreadsheet-generator
-	branch = master
+	branch = release-4.3
 [submodule "importer-exporter-plugins/plugin-ade-manager"]
 	path = importer-exporter-plugins/plugin-ade-manager
 	url = https://github.com/3dcitydb/plugin-ade-manager
-	branch = master
+	branch = release-2.3

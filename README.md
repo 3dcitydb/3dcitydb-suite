@@ -14,11 +14,11 @@ the 3D City Database scripts, the 3D Web Map Client, and Importer/Exporter plugi
 
 Latest release
 --------------
-The latest stable release of the 3D City Database Suite is 2023.0.1.
+The latest stable release of the 3D City Database Suite is 2024.0.0.
 
 You can download the installer for the latest release as well as previous releases from the
 [releases section](https://github.com/3dcitydb/3dcitydb-suite/releases). A complete and comprehensive user manual
-for this release is available [online](https://3dcitydb-docs.readthedocs.io/en/version-2023.0/).
+for this release is available [online](https://3dcitydb-docs.readthedocs.io/en/version-2024.0/).
 
 Contributing
 ------------
