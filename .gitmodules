@@ -9,7 +9,7 @@
 [submodule "3dcitydb-web-map"]
 	path = 3dcitydb-web-map
 	url = https://github.com/3dcitydb/3dcitydb-web-map
-	branch = release-v1.9
+	branch = release-2.0
 [submodule "importer-exporter-plugins/plugin-spreadsheet-generator"]
 	path = importer-exporter-plugins/plugin-spreadsheet-generator
 	url = https://github.com/3dcitydb/plugin-spreadsheet-generator
