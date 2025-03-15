@@ -1,6 +1,13 @@
 3D City Database Suite
 ======================
 
+> [!NOTE]
+> This repository hosts software packages for the 3DCityDB v4 and its tools. Although 3DCityDB v5 is now available, 3DCityDB v4
+> remains stable and operational. However, it is in **maintenance mode**, meaning no significant new features are
+> planned, though existing bugs will continue to be addressed. Development is now focused on 3DCityDB v5, and we recommend
+> upgrading to benefit from new features and improvements. Please refer to the [3DCityDB v5 user manual](https://3dcitydb.github.io/3dcitydb-mkdocs/)
+> for more information.
+
 This is an umbrella repository for the 3D City Database and the associated software tools to import,
 export, manage, analyse, and visualize virtual 3D city models based on the 3D City Database.
 
