@@ -9,7 +9,7 @@
 > for more information.
 
 This is an umbrella repository for the 3D City Database and the associated software tools to import,
-export, manage, analyse, and visualize virtual 3D city models based on the 3D City Database.
+export, manage, analyze, and visualize virtual 3D city models based on the 3D City Database.
 
 The 3D City Database and each software tool are managed in separate repositories and follow their own
 development and release cycles. The purpose of this repository is to bundle the separate components at one
@@ -21,7 +21,7 @@ the 3D City Database scripts, the 3D Web Map Client, and Importer/Exporter plugi
 
 Latest release
 --------------
-The latest stable release of the 3D City Database Suite is 2024.0.1.
+The latest stable release of the 3D City Database Suite is 2024.0.3.
 
 You can download the installer for the latest release as well as previous releases from the
 [releases section](https://github.com/3dcitydb/3dcitydb-suite/releases). A complete and comprehensive user manual
@@ -29,7 +29,7 @@ for this release is available [online](https://3dcitydb-docs.readthedocs.io/en/v
 
 Contributing
 ------------
-If you want to file bugs, contribute code or propose a new feature for a specific software component,
+If you want to file bugs, contribute code, or propose a new feature for a specific software component,
 please create a GitHub issue or a pull request **in the repository of the corresponding software component**.
 
 Building a 3D City Database Suite installer
