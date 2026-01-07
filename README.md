@@ -14,7 +14,7 @@ the 3D City Database scripts, the 3D Web Map Client, and Importer/Exporter plugi
 
 Latest release
 --------------
-The latest stable release of the 3D City Database Suite is 2024.0.3.
+The latest stable release of the 3D City Database Suite is 2024.0.4.
 
 You can download the installer for the latest release as well as previous releases from the
 [releases section](https://github.com/3dcitydb/3dcitydb-suite/releases). A complete and comprehensive user manual
@@ -36,7 +36,7 @@ command from the root of the repository.
 
 The script automatically clones the repositories of all required software components and downloads all
 mandatory dependencies for building the software. So, make sure you are connected to the internet. The build process
-runs on all major operating systems and only requires a Java 8 JDK or higher to run.
+runs on all major operating systems and only requires a Java 11 JDK or higher to run.
 
 If the build was successful, you will find the Importer/Exporter installer under `build/distributions`.
 
